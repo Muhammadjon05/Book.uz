@@ -12,6 +12,6 @@ public class Book
     public decimal Price { get; set; }
     public string PhotoUrl { get; set; }
     public Guid CategoryId { get; set; }
-    public Category Category { get; set; }
-    public ICollection<BookAuthor> BooksAuthors {get;set;}
+    public virtual Category Category { get; set; }
+    public virtual ICollection<BookAuthor> BooksAuthors {get;set;}
 }

@@ -8,8 +8,7 @@ public class BooksAuthorsConfiguration : IEntityTypeConfiguration<BookAuthor>
 {
     public void Configure(EntityTypeBuilder<BookAuthor> builder)
     {
-        builder.HasKey(sc => new { sc.BookId, sc.AuthorId });
-        
+        builder.HasKey(c=>c.Id);
         builder
             .HasOne<Entities.Book>(sc => sc.Book)
             .WithMany(s => s.BooksAuthors)

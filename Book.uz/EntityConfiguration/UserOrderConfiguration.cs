@@ -8,7 +8,7 @@ public class UserOrderConfiguration : IEntityTypeConfiguration<UserOrder>
 {
     public void Configure(EntityTypeBuilder<UserOrder> builder)
     {
-        builder.HasKey(sc => new { sc.UserId, sc.OrderId });
+        builder.HasKey(c => c.Id);
         
         builder
             .HasOne<User>(sc => sc.User)

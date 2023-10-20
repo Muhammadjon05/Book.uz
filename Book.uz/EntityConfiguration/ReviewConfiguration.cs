@@ -21,7 +21,6 @@ public class ReviewConfiguration : IEntityTypeConfiguration<Review>
 
         builder.Property(r => r.ReviewText)
             .HasMaxLength(500);
-        builder.Property(r => r.ReviewedDate)
-            .HasColumnType("datetime2");
+        builder.Property(r => r.ReviewedDate);
     }
 }

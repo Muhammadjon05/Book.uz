@@ -8,5 +8,5 @@ public class User
     public string Email { get; set; }
     public required string Password { get; set; }
     public string PasswordHash { get; set; } = null!;
-    public ICollection<UserOrder> UsersOrders { get; set; }
+    public virtual ICollection<UserOrder> UsersOrders { get; set; }
 }

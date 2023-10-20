@@ -6,5 +6,5 @@ public class Author
     public string AuthorName { get; set; }
     public string AuthorLastName { get; set; }
     public string AuthorEmail { get; set; }
-    public ICollection<BookAuthor> BooksAuthors {get;set;}
+    public virtual ICollection<BookAuthor> BooksAuthors {get;set;}
 }

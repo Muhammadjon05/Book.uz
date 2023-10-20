@@ -7,5 +7,5 @@ public class Order
     public Book Book { get; set; }
     public int Quantity { get; set; }
     public decimal TotalPrice { get; set; }
-    public ICollection<UserOrder> UsersOrders { get; set; }
+    public virtual ICollection<UserOrder> UsersOrders { get; set; }
 }

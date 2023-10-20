@@ -1,4 +1,4 @@
-﻿namespace Book.uz.Entities;
+﻿namespace Book.uz.Enums;
 
 public enum PaymentStatus
 {

@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿
+using Book.uz.Enums;
 
 namespace Book.uz.Entities;
 
@@ -14,4 +14,6 @@ public class Book
     public Guid CategoryId { get; set; }
     public virtual Category Category { get; set; }
     public virtual ICollection<BookAuthor> BooksAuthors {get;set;}
+    public virtual ICollection<Review> Reviews { get; set; }
+    
 }

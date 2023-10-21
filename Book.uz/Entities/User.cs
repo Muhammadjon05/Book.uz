@@ -7,8 +7,8 @@ public class User
     public string Username { get; set; }
     public string LastName { get; set; }
     public string Email { get; set; }
-    public required string Password { get; set; }
+    public  string Password { get; set; }
     public string PasswordHash { get; set; } = null!;
-    public virtual ICollection<UserOrder> UsersOrders { get; set; }
-    public virtual ICollection<Review> Reviews { get; set; }
+    public virtual ICollection<Order>? Orders { get; set; }
+    public virtual ICollection<Review>? Reviews { get; set; }
 }

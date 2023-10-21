@@ -13,7 +13,7 @@ public class Book
     public string PhotoUrl { get; set; }
     public Guid CategoryId { get; set; }
     public virtual Category Category { get; set; }
-    public virtual ICollection<BookAuthor> BooksAuthors {get;set;}
+    public virtual ICollection<Author> Auhtors {get;set;}
     public virtual ICollection<Review> Reviews { get; set; }
     
 }

@@ -1,4 +1,5 @@
 using Book.uz.DbContext;
+using Book.uz.Extension;
 using Book.uz.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -17,6 +18,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 });
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+builder.Services.AddIdentity(builder.Configuration);
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddSwaggerGen(c =>

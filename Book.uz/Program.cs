@@ -1,8 +1,15 @@
+using AutoMapper;
 using Book.uz.DbContext;
 using Book.uz.Extension;
+using Book.uz.Manager;
+using Book.uz.Manager.BookManager;
+using Book.uz.Mappers;
 using Book.uz.Repositories;
+using Book.uz.Repositories.BookRepository;
+using Book.uz.Repositories.UserRepositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Mapper = AutoMapper.Mapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +26,19 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 builder.Services.AddIdentity(builder.Configuration);
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
+builder.Services.AddScoped<BookManager>();
+builder.Services.AddScoped<AuthorManager>();
+
+var mapperConfig = new MapperConfiguration(mc =>
+{
+    mc.AddProfile(new MappingProfile());
+});
+
+IMapper mapper = mapperConfig.CreateMapper();
+builder.Services.AddSingleton(mapper);
+
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddSwaggerGen(c =>

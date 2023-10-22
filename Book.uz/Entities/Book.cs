@@ -10,10 +10,9 @@ public class Book
     public Language Language { get; set; } 
     public int PageSize { get; set;}
     public decimal Price { get; set; }
-    public string PhotoUrl { get; set; }
     public Guid CategoryId { get; set; }
     public virtual Category Category { get; set; }
-    public virtual ICollection<Author> Auhtors {get;set;}
+    public virtual ICollection<Author> Authors{get;set;}
     public virtual ICollection<Review> Reviews { get; set; }
     
 }

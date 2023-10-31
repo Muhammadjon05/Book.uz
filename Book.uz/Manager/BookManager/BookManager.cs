@@ -25,14 +25,6 @@ public class BookManager
         book =  await _bookRepository.AddBook(book);
          return _mapper.Map<BookModel>(book);
     }
-    private BookModel ToBookModel(Entities.Book book)
-    {
-        var bookModel = _mapper.Map<BookModel>(book);
-       // bookModel.Auhtors = _mapper.Map<List<AuthorModel>>(book.Authors);
-        bookModel.Reviews = _mapper.Map<List<ReviewModel>>(book.Reviews);
-        return bookModel;
-    }
-    
 
     public Task DeleteBook(Entities.Book book)
     {

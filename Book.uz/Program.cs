@@ -4,9 +4,11 @@ using Book.uz.DbContext;
 using Book.uz.Extension;
 using Book.uz.Manager;
 using Book.uz.Manager.BookManager;
+using Book.uz.Manager.CategoryManager;
 using Book.uz.Mappers;
 using Book.uz.Repositories;
 using Book.uz.Repositories.BookRepository;
+using Book.uz.Repositories.CategoryRepository;
 using Book.uz.Repositories.UserRepositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -28,8 +30,10 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 builder.Services.AddIdentity(builder.Configuration);
 builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<BookManager>();
+builder.Services.AddScoped<CategoryManager>();
 builder.Services.AddScoped<AuthorManager>();
 builder.Services.AddControllers()
     .AddJsonOptions(

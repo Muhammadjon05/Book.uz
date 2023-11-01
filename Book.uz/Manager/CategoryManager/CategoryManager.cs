@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Book.uz.DtoModels;
 using Book.uz.Entities;
+using Book.uz.Exceptions;
 using Book.uz.Models;
 using Book.uz.Repositories.CategoryRepository;
 
@@ -23,9 +24,31 @@ public class CategoryManager
         var category = await _categoryRepository.AddCategory(categoryD);
         return _mapper.Map<CategoryModel>(category);
     }
+    public async Task<ICollection<CategoryModel>> GetAllCategories()
+    {
+        var categories = await _categoryRepository.GetAllCategories();
+        var catModels = _mapper.Map<ICollection<CategoryModel>>(categories);
+        return catModels;
+    }
+
 
     public async Task DeleteCategory(Guid id)
     {
-        
+        var category = await _categoryRepository.GetCategoryById(id);
+        if (category == null)
+        {
+            throw new CategoryNotFoundException(id);
+        }
+        await _categoryRepository.DeleteCategory(category: category);
+    }
+    public async Task<CategoryModel> GetByCategory(Guid id)
+    {
+        var category = await _categoryRepository.GetCategoryById(id);
+        if (category == null)
+        {
+            throw new CategoryNotFoundException(id);
+        }
+        var categoryModel = _mapper.Map<CategoryModel>(category);
+        return categoryModel;
     }
 }

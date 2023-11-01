@@ -1,5 +1,6 @@
 ﻿using Book.uz.DbContext;
 using Book.uz.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Book.uz.Repositories.CategoryRepository;
 
@@ -16,6 +17,20 @@ public class CategoryRepository : ICategoryRepository
     {
         await _appDbContext.Categories.AddAsync(category);
         await _appDbContext.SaveChangesAsync();
+        return category;
+    }
+
+    public async Task<ICollection<Category>> GetAllCategories()
+    {
+        var categories = await _appDbContext.Categories.ToListAsync();
+        return categories;
+    }
+
+    public async Task<Category?> GetCategoryById(Guid id)
+    {
+        var category = await _appDbContext.Categories.Where(i => i.CategoryId == id).
+            Include(i => i.Books).ThenInclude(i=>i.Authors)
+            .FirstOrDefaultAsync();
         return category;
     }
 

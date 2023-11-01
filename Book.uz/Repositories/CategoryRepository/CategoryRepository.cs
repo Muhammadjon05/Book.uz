@@ -29,7 +29,8 @@ public class CategoryRepository : ICategoryRepository
     public async Task<Category?> GetCategoryById(Guid id)
     {
         var category = await _appDbContext.Categories.Where(i => i.CategoryId == id).
-            Include(i => i.Books).ThenInclude(i=>i.Authors)
+            Include(i => i.Books).
+            ThenInclude(i=>i.Authors).Include(i=>i.Books).ThenInclude(i=>i.Reviews)
             .FirstOrDefaultAsync();
         return category;
     }

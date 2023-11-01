@@ -30,7 +30,7 @@ public class BookRepository : IBookRepository
     public async Task<Entities.Book> GetBookById(Guid bookId)
     {
         var book =  await _appDbContext.Books.Where
-            (i=>i.BookId == bookId).FirstOrDefaultAsync();
+            (i=>i.BookId == bookId).Include(i=>i.Authors).FirstOrDefaultAsync();
         return book;
     }
 

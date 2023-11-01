@@ -1,4 +1,5 @@
 ﻿using Book.uz.DtoModels;
+using Book.uz.Exceptions;
 using Book.uz.Manager.BookManager;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,7 +25,23 @@ public class BooksController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetBooks()
     {
+       
         var book = await _bookManager.GetAllBooks();
         return  Ok(book);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetBookById(Guid id)
+    {
+        try
+        {
+            var book = await _bookManager.GetBookById(id);
+            return Ok(book);
+
+        }
+        catch (BookNotFoundException e)
+        {
+            return NotFound();
+        }
     }
 }

@@ -2,6 +2,7 @@
 using Book.uz.DbContext;
 using Book.uz.DtoModels;
 using Book.uz.Entities;
+using Book.uz.Exceptions;
 using Book.uz.Models;
 using Book.uz.Repositories.BookRepository;
 using Book.uz.Repositories.UserRepositories;
@@ -41,6 +42,10 @@ public class BookManager
     public async Task<BookModel> GetBookById(Guid bookId)
     {
         var book = await _bookRepository.GetBookById(bookId);
+        if (book == null)
+        {
+            throw new BookNotFoundException(bookId);
+        }
         var bookModel = _mapper.Map<BookModel>(book);
         return bookModel;
     }

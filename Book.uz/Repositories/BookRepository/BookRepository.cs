@@ -34,5 +34,11 @@ public class BookRepository : IBookRepository
         return book;
     }
 
+    public async Task<ICollection<Entities.Book>> GetAllTheBooks()
+    {
+        var books = await _appDbContext.Books.Include(i => i.Authors).ToListAsync();
+        return books;
+    }
+
     
 }

@@ -23,7 +23,14 @@ public class BookManager
         var book = _mapper.Map<Entities.Book>(dto);
         book.Authors = _mapper.Map<List<Author>>(dto.AuthoInfo);
         book =  await _bookRepository.AddBook(book);
-         return _mapper.Map<BookModel>(book);
+        return _mapper.Map<BookModel>(book);
+    }
+
+    public async Task<ICollection<BookModel>> GetAllBooks()
+    {
+        var books = await _bookRepository.GetAllTheBooks();
+        var maps = _mapper.Map<List<BookModel>>(books);
+        return maps;
     }
 
     public Task DeleteBook(Entities.Book book)
@@ -31,8 +38,10 @@ public class BookManager
         throw new NotImplementedException();
     }
 
-    public Task<Entities.Book> GetBookById(Guid bookId)
+    public async Task<BookModel> GetBookById(Guid bookId)
     {
-        throw new NotImplementedException();
+        var book = await _bookRepository.GetBookById(bookId);
+        var bookModel = _mapper.Map<BookModel>(book);
+        return bookModel;
     }
 }

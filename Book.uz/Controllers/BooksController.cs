@@ -21,4 +21,10 @@ public class BooksController : ControllerBase
         var book = await _bookManager.AddBook(dto);
         return  Ok(book);
     }
+    [HttpGet]
+    public async Task<IActionResult> GetBooks()
+    {
+        var book = await _bookManager.GetAllBooks();
+        return  Ok(book);
+    }
 }

@@ -43,5 +43,19 @@ public class BooksController : ControllerBase
         {
             return NotFound();
         }
+    } 
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        try
+        {
+            await _bookManager.GetBookById(id);
+            return Ok("Deleted successfully");
+
+        }
+        catch (BookNotFoundException e)
+        {
+            return NotFound();
+        }
     }
 }

@@ -34,9 +34,14 @@ public class BookManager
         return maps;
     }
 
-    public Task DeleteBook(Entities.Book book)
+    public async Task DeleteBook(Guid id)
     {
-        throw new NotImplementedException();
+        var book = await _bookRepository.GetBookById(id);
+        if (book == null)
+        {
+            throw new BookNotFoundException(id);
+        }
+        await _bookRepository.DeleteBook(book);
     }
 
     public async Task<BookModel> GetBookById(Guid bookId)

@@ -30,13 +30,16 @@ public class BookRepository : IBookRepository
     public async Task<Entities.Book> GetBookById(Guid bookId)
     {
         var book =  await _appDbContext.Books.Where
-            (i=>i.BookId == bookId).Include(i=>i.Authors).FirstOrDefaultAsync();
+            (i=>i.BookId == bookId).Include(i=>i.Authors).
+            Include(i=>i.Reviews)
+            .FirstOrDefaultAsync();
         return book;
     }
 
     public async Task<ICollection<Entities.Book>> GetAllTheBooks()
     {
-        var books = await _appDbContext.Books.Include(i => i.Authors).ToListAsync();
+        var books = await _appDbContext.Books.
+            Include(i => i.Authors).Include(i=>i.Reviews).ToListAsync();
         return books;
     }
 

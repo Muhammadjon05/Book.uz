@@ -52,5 +52,14 @@ public class OrderManager
             throw new OrderException(id);
         }
         await _orderRepository.DeleteOrder(order);
+
+       
+    }
+    public async Task<ICollection<OrderModel>> GetCurrentUsersOrder()
+    {
+        var userId = _userProvider.UserId;
+        var orders = await _orderRepository.GetOrders();
+        var currentUserOrders = orders.Where(i => i.UserId == userId).ToList();
+        return _mapper.Map<ICollection<OrderModel>>(currentUserOrders);
     }
 }

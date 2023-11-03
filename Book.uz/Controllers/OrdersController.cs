@@ -33,6 +33,12 @@ public class OrdersController : ControllerBase
         return Ok(orders);
     }
 
+    [HttpGet("CurrentUserOrders")]
+    public async Task<IActionResult> CurrentUserOrders()
+    {
+        var orders = await _orderManager.GetCurrentUsersOrder();
+        return Ok(orders);
+    }
     [HttpGet("{id}")]
     public async Task<IActionResult> GetOrderById(Guid id)
     {

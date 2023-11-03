@@ -5,6 +5,7 @@ using Book.uz.Extension;
 using Book.uz.Manager;
 using Book.uz.Manager.BookManager;
 using Book.uz.Manager.CategoryManager;
+using Book.uz.Manager.OrderManager;
 using Book.uz.Manager.Review;
 using Book.uz.Mappers;
 using Book.uz.Repositories;
@@ -39,6 +40,7 @@ builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<BookManager>();
 builder.Services.AddScoped<ReviewManager>();
+builder.Services.AddScoped<OrderManager>();
 builder.Services.AddScoped<CategoryManager>();
 builder.Services.AddScoped<AuthorManager>();
 builder.Services.AddControllers()

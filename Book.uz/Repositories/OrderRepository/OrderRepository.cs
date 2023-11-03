@@ -20,7 +20,7 @@ public class OrderRepository : IOrderRepository
         return order;
     }
 
-    public async Task<ICollection<Order>> GetOrder()
+    public async Task<ICollection<Order>> GetOrders()
     {
         var list = await _appDbContext.Orders.ToListAsync();
         return list;

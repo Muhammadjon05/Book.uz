@@ -17,5 +17,8 @@ public class MappingProfile : Profile
         CreateMap<ReviewDto, Review>();
         CreateMap<CategoryDto, Category>();
         CreateMap<Category, CategoryModel>();
+        CreateMap<Order, OrderModel>();
+        CreateMap<Order, OrderDto>();
+        CreateMap<OrderDto, Order>();
     }
 }

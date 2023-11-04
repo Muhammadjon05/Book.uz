@@ -1,5 +1,6 @@
 ﻿using Book.uz.DtoModels;
 using Book.uz.Exceptions;
+using Book.uz.Filter;
 using Book.uz.Manager.BookManager;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,10 +24,10 @@ public class BooksController : ControllerBase
         return  Ok(book);
     }
     [HttpGet]
-    public async Task<IActionResult> GetBooks()
+    public async Task<IActionResult> GetBooks([FromQuery] BookFilter filter)
     {
        
-        var book = await _bookManager.GetAllBooks();
+        var book = await _bookManager.GetAllBooks(filter: filter);
         return  Ok(book);
     }
 

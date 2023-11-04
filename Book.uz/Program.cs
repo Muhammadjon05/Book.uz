@@ -8,6 +8,7 @@ using Book.uz.Manager.CategoryManager;
 using Book.uz.Manager.OrderManager;
 using Book.uz.Manager.Review;
 using Book.uz.Mappers;
+using Book.uz.PaginationModels;
 using Book.uz.Repositories;
 using Book.uz.Repositories.BookRepository;
 using Book.uz.Repositories.CategoryRepository;
@@ -42,7 +43,12 @@ builder.Services.AddScoped<BookManager>();
 builder.Services.AddScoped<ReviewManager>();
 builder.Services.AddScoped<OrderManager>();
 builder.Services.AddScoped<CategoryManager>();
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<HttpContextHelper>();
 builder.Services.AddScoped<AuthorManager>();
+
+
 builder.Services.AddControllers()
     .AddJsonOptions(
         options =>

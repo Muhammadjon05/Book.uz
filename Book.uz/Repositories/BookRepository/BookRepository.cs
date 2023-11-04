@@ -36,10 +36,10 @@ public class BookRepository : IBookRepository
         return book;
     }
 
-    public async Task<ICollection<Entities.Book>> GetAllTheBooks()
+    public async ValueTask<IQueryable<Entities.Book>> GetAllTheBooks()
     {
-        var books = await _appDbContext.Books.
-            Include(i => i.Authors).Include(i=>i.Reviews).ToListAsync();
+        var books =  _appDbContext.Books.
+            Include(i => i.Authors).Include(i=>i.Reviews).AsQueryable();
         return books;
     }
 

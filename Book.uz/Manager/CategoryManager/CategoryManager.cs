@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿/*using AutoMapper;
 using Book.uz.DtoModels;
 using Book.uz.Entities;
 using Book.uz.Exceptions;
@@ -51,4 +51,4 @@ public class CategoryManager
         var categoryModel = _mapper.Map<CategoryModel>(category);
         return categoryModel;
     }
-}
+}*/

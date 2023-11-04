@@ -1,41 +1,47 @@
-﻿using Book.uz.DbContext;
+﻿using AutoMapper;
+using Book.uz.DbContext;
+using Book.uz.DtoModels;
 using Book.uz.Entities;
+using Book.uz.Filter;
+using Book.uz.Models;
+using Book.uz.PaginationModels;
+using Book.uz.Repositories.Generic;
 using Microsoft.EntityFrameworkCore;
 
 namespace Book.uz.Repositories.OrderRepository;
 
 public class OrderRepository : IOrderRepository
 {
-    private readonly AppDbContext _appDbContext;
-
-    public OrderRepository(AppDbContext appDbContext)
+    private readonly HttpContextHelper _httpContext;
+    private readonly IMapper _mapper;
+    private readonly IGenericRepository<Order> _orderRepository;
+    public OrderRepository(HttpContextHelper httpContext, IMapper mapper, IGenericRepository<Order> orderRepository)
     {
-        _appDbContext = appDbContext;
+        _httpContext = httpContext;
+        _mapper = mapper;
+        _orderRepository = orderRepository;
     }
 
-    public async Task<Order> AddOrder(Order order)
+    public async ValueTask<OrderModel> InsertAsync(OrderDto dto)
     {
-        await _appDbContext.Orders.AddAsync(order);
-        await _appDbContext.SaveChangesAsync();
-        return order;
+        var create = _mapper.Map<Order>(dto);
+        var newBook = await _orderRepository.InsertAsync(create);
+        return _mapper.Map<OrderModel>(newBook);
+        
     }
 
-    public async Task<ICollection<Order>> GetOrders()
+    public ValueTask<IEnumerable<OrderModel>> GetAllAsync(OrderFilter filter)
     {
-        var list = await _appDbContext.Orders.ToListAsync();
-        return list;
+        throw new NotImplementedException();
     }
 
-    public async Task<Order?> GetOrderById(Guid id)
+    public ValueTask<OrderModel> GetOrderById(Guid id)
     {
-        var order = await _appDbContext.Orders.Where(i => i.OrderId == id).FirstOrDefaultAsync();
-        return order;
-
+        throw new NotImplementedException();
     }
 
-    public async Task DeleteOrder(Order order)
+    public void DeleteOrder(Guid id)
     {
-         _appDbContext.Remove(order);
-         await _appDbContext.SaveChangesAsync();
+        throw new NotImplementedException();
     }
 }

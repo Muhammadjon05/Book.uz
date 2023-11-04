@@ -1,12 +1,15 @@
-﻿using Book.uz.Entities;
+﻿using Book.uz.DtoModels;
+using Book.uz.Entities;
+using Book.uz.Filter;
+using Book.uz.Models;
 
 namespace Book.uz.Repositories.CategoryRepository;
 
 public interface ICategoryRepository
 {
-    Task<Category> AddCategoryAsync(Category category);
-    Task<ICollection<Category>> GetAllCategoriesAsync();
-    Task<Category?> GetCategoryByIdAsync(Guid id);
-    Task DeleteCategoryAsync(Category category);
+    ValueTask<CategoryModel> InsertAsync(CategoryDto dto);
+    ValueTask<IEnumerable<CategoryModel>> GetAllAsync(CategoryFilter filter);
+    ValueTask<CategoryModel> GetByCategoryIdAsync(Guid id);
+    void DeleteCategory(Guid id);
 
 }

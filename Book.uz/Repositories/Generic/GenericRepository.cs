@@ -1,4 +1,4 @@
-﻿/*using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using Book.uz.DbContext;
 using Microsoft.EntityFrameworkCore;
 
@@ -52,4 +52,4 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         this.DbSet.Remove(entity);
         await _dbContext.SaveChangesAsync();
     }
-}*/
+}

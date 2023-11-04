@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿/*using AutoMapper;
 using Book.uz.DtoModels;
 using Book.uz.Entities;
 using Book.uz.Exceptions;
@@ -62,4 +62,4 @@ public class OrderManager
         var currentUserOrders = orders.Where(i => i.UserId == userId).ToList();
         return _mapper.Map<ICollection<OrderModel>>(currentUserOrders);
     }
-}
+}*/

@@ -1,7 +1,7 @@
 ﻿using Book.uz.DtoModels;
 using Book.uz.Exceptions;
 using Book.uz.Filter;
-using Book.uz.Manager.BookManager;
+using Book.uz.Repositories.BookRepository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Book.uz.Controllers;
@@ -10,24 +10,24 @@ namespace Book.uz.Controllers;
 [Route("api/[controller]")]
 public class BooksController : ControllerBase
 {
-    private readonly BookManager _bookManager;
+    private readonly IBookRepository _bookRepository;
 
-    public BooksController(BookManager bookManager)
+    public BooksController(IBookRepository bookRepository)
     {
-        _bookManager = bookManager;
+        _bookRepository = bookRepository;
     }
+
 
     [HttpPost]
     public async Task<IActionResult> AddBook([FromBody]BookDto dto)
     {
-        var book = await _bookManager.AddBook(dto);
+        var book = await _bookRepository.InsertAsync(dto);
         return  Ok(book);
     }
     [HttpGet]
     public async Task<IActionResult> GetBooks([FromQuery] BookFilter filter)
     {
-       
-        var book = await _bookManager.GetAllBooks(filter: filter);
+        var book = await _bookRepository.GetAllAsync(filter: filter);
         return  Ok(book);
     }
 
@@ -36,7 +36,7 @@ public class BooksController : ControllerBase
     {
         try
         {
-            var book = await _bookManager.GetBookById(id);
+            var book = await _bookRepository.GetBookByIdAsync(id);
             return Ok(book);
 
         }
@@ -50,9 +50,8 @@ public class BooksController : ControllerBase
     {
         try
         {
-            await _bookManager.GetBookById(id);
-            return Ok("Deleted successfully");
-
+             _bookRepository.DeleteBook(id);
+             return Ok("Deleted");
         }
         catch (BookNotFoundException e)
         {

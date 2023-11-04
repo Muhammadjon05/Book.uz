@@ -3,7 +3,6 @@ using AutoMapper;
 using Book.uz.DbContext;
 using Book.uz.Extension;
 using Book.uz.Manager;
-using Book.uz.Manager.BookManager;
 using Book.uz.Manager.CategoryManager;
 using Book.uz.Manager.OrderManager;
 using Book.uz.Manager.Review;
@@ -12,6 +11,7 @@ using Book.uz.PaginationModels;
 using Book.uz.Repositories;
 using Book.uz.Repositories.BookRepository;
 using Book.uz.Repositories.CategoryRepository;
+using Book.uz.Repositories.Generic;
 using Book.uz.Repositories.OrderRepository;
 using Book.uz.Repositories.ReviewRepository;
 using Book.uz.Repositories.UserRepositories;
@@ -39,10 +39,9 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-builder.Services.AddScoped<BookManager>();
+builder.Services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
+
 builder.Services.AddScoped<ReviewManager>();
-builder.Services.AddScoped<OrderManager>();
-builder.Services.AddScoped<CategoryManager>();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<HttpContextHelper>();

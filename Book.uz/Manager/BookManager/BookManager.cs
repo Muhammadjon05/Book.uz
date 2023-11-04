@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+﻿/*using AutoMapper;
 using Book.uz.DbContext;
 using Book.uz.DtoModels;
 using Book.uz.Entities;
@@ -73,4 +73,4 @@ public class BookManager
         var bookModel = _mapper.Map<BookModel>(book);
         return bookModel;
     }
-}
+}*/

@@ -1,7 +1,7 @@
 ﻿using Book.uz.DtoModels;
 using Book.uz.Entities;
 using Book.uz.Exceptions;
-using Book.uz.Manager.CategoryManager;
+using Book.uz.Filter;
 using Book.uz.Repositories.CategoryRepository;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,17 +11,18 @@ namespace Book.uz.Controllers;
 [Route("api/[controller]")]
 public class CategoriesController : ControllerBase
 {
-    private CategoryManager _categoryManager;
+    private ICategoryRepository _categoryRepository;
 
-    public CategoriesController(CategoryManager categoryManager)
+    public CategoriesController(ICategoryRepository categoryRepository)
     {
-        _categoryManager = categoryManager;
+        _categoryRepository = categoryRepository;
     }
+
 
     [HttpPost]
     public  async Task<IActionResult> AddCategoryAsync(CategoryDto dto)
     {
-        var category = await _categoryManager.AddCategoryAsync(dto: dto);
+        var category = await _categoryRepository.InsertAsync(dto: dto);
         return Ok(category);
     }
 
@@ -30,7 +31,7 @@ public class CategoriesController : ControllerBase
     {
         try
         {
-            var category = await _categoryManager.GetByCategoryAsync(id);
+            var category = await _categoryRepository.GetByCategoryIdAsync(id);
             return Ok(category);
         }
         catch (CategoryNotFoundException e)
@@ -40,22 +41,22 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteCategoryAsync(Guid id)
+    public Task<IActionResult> DeleteCategoryAsync(Guid id)
     {
         try
         {
-            await _categoryManager.DeleteCategoryAsync(id);
-            return Ok("Deleted successfully");
+             _categoryRepository.DeleteCategory(id);
+            return Task.FromResult<IActionResult>(Ok("Deleted successfully"));
         }
         catch (CategoryNotFoundException e)
         {
-            return NotFound();
+            return Task.FromResult<IActionResult>(NotFound());
         }
     }
     [HttpGet]
-    public  async Task<IActionResult> GetAllCategoriesAsync()
+    public  async Task<IActionResult> GetAllCategoriesAsync([FromQuery] CategoryFilter filter)
     {
-        var categories = await _categoryManager.GetAllCategoriesAsync();
+        var categories = await _categoryRepository.GetAllAsync(filter);
         return Ok(categories);
     }
 }

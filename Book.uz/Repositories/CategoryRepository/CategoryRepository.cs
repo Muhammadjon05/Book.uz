@@ -1,43 +1,64 @@
-﻿using Book.uz.DbContext;
+﻿using AutoMapper;
+using Book.uz.DbContext;
+using Book.uz.DtoModels;
 using Book.uz.Entities;
+using Book.uz.Exceptions;
+using Book.uz.Extensions;
+using Book.uz.Filter;
+using Book.uz.Models;
+using Book.uz.PaginationModels;
+using Book.uz.Repositories.Generic;
 using Microsoft.EntityFrameworkCore;
 
 namespace Book.uz.Repositories.CategoryRepository;
 
 public class CategoryRepository : ICategoryRepository
 {
-    private readonly AppDbContext _appDbContext;
-
-    public CategoryRepository(AppDbContext appDbContext)
+    private readonly IMapper _mapper;
+    private readonly HttpContextHelper _httpContext;
+    private IGenericRepository<Category> _categoryRepository;
+    public CategoryRepository(IMapper mapper, HttpContextHelper httpContext, IGenericRepository<Category> categoryRepository)
     {
-        _appDbContext = appDbContext;
+        _mapper = mapper;
+        _httpContext = httpContext;
+        _categoryRepository = categoryRepository;
     }
 
-    public  async Task<Category> AddCategoryAsync(Category category)
+
+    public async ValueTask<CategoryModel> InsertAsync(CategoryDto dto)
     {
-        await _appDbContext.Categories.AddAsync(category);
-        await _appDbContext.SaveChangesAsync();
-        return category;
+        var createCategory = _mapper.Map<Category>(dto);
+        var newBook = await _categoryRepository.InsertAsync(createCategory);
+        return _mapper.Map<CategoryModel>(newBook);
     }
 
-    public async Task<ICollection<Category>> GetAllCategoriesAsync()
+    public async ValueTask<IEnumerable<CategoryModel>> GetAllAsync(CategoryFilter filter)
     {
-        var categories = await _appDbContext.Categories.ToListAsync();
-        return categories;
+        var categories = _categoryRepository.SelectAll();
+        if (filter.Name is not null)
+        {
+            categories = categories.Where(t => t.CategoryName.ToLower()
+                .Contains(filter.Name.ToLower()));
+        }
+        var categoryPages = await categories.
+            ToPagedListAsync(_httpContext, filter);
+        return  categoryPages.Select(v=>_mapper.Map<CategoryModel>(v));
     }
 
-    public async Task<Category?> GetCategoryByIdAsync(Guid id)
-    {
-        var category = await _appDbContext.Categories.Where(i => i.CategoryId == id).
-            Include(i => i.Books).
-            ThenInclude(i=>i.Authors).Include(i=>i.Books).ThenInclude(i=>i.Reviews)
-            .FirstOrDefaultAsync();
-        return category;
+    public ValueTask<CategoryModel> GetByCategoryIdAsync(Guid id)
+    {   var category =  _categoryRepository.SelectFirstAsync
+            (t => t.CategoryId == id).Result;
+        if (category == null)
+            throw new CategoryNotFoundException(id);
+
+        return ValueTask.FromResult(_mapper.Map<CategoryModel>(category));
     }
 
-    public async Task DeleteCategoryAsync(Category category)
-    {
-        _appDbContext.Categories.Remove(category);
-        await _appDbContext.SaveChangesAsync();
+    public void DeleteCategory(Guid id)
+    {  var category = _categoryRepository.SelectFirstAsync
+            (t => t.CategoryId == id).Result;
+        if (category == null)
+            throw new BookNotFoundException(id);
+        _categoryRepository.DeleteAsync(category);
     }
 }

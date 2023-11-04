@@ -3,8 +3,6 @@ using AutoMapper;
 using Book.uz.DbContext;
 using Book.uz.Extension;
 using Book.uz.Manager;
-using Book.uz.Manager.CategoryManager;
-using Book.uz.Manager.OrderManager;
 using Book.uz.Manager.Review;
 using Book.uz.Mappers;
 using Book.uz.PaginationModels;

@@ -1,7 +1,8 @@
 ﻿
 using Book.uz.DtoModels;
 using Book.uz.Exceptions;
-using Book.uz.Manager.OrderManager;
+using Book.uz.Filter;
+using Book.uz.Repositories.OrderRepository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,9 +13,9 @@ namespace Book.uz.Controllers;
 [Route("api/[controller]")]
 public class OrdersController : ControllerBase
 {
-    private readonly OrderManager _orderManager;
+    private readonly IOrderRepository _orderManager;
 
-    public OrdersController(OrderManager orderManager)
+    public OrdersController(IOrderRepository orderManager)
     {
         _orderManager = orderManager;
     }
@@ -22,23 +23,24 @@ public class OrdersController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> AddOrder(OrderDto dto)
     {
-        var order = await _orderManager.AddOrder(dto);
+        var order = await _orderManager.InsertAsync(dto);
         return Ok(order);
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetOrders()
+    public async Task<IActionResult> GetOrders([FromQuery] OrderFilter filter)
     {
-        var orders = await _orderManager.GetOrders();
+        var orders = await _orderManager.GetAllAsync(filter);
         return Ok(orders);
     }
 
+    /*
     [HttpGet("CurrentUserOrders")]
     public async Task<IActionResult> CurrentUserOrders()
     {
-        var orders = await _orderManager.GetCurrentUsersOrder();
+        var orders = await _orderManager.GetAllAsync();
         return Ok(orders);
-    }
+    }*/
     [HttpGet("{id}")]
     public async Task<IActionResult> GetOrderById(Guid id)
     {
@@ -59,7 +61,7 @@ public class OrdersController : ControllerBase
     {
         try
         {
-            await _orderManager.DeleteOrder(id);
+             _orderManager.DeleteOrder(id);
             return Ok("Successfully deleted!");
 
         }

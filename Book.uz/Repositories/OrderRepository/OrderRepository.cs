@@ -43,7 +43,8 @@ public class OrderRepository : IOrderRepository
         }if (filter.TotalPrice != null)
         {
             orders = orders.Where(t => t.TotalPrice > filter.TotalPrice);
-        }if (filter.PaymentMethod != null)
+        }
+        if (filter.PaymentMethod != null)
         {
             orders = orders.Where(t => t.PaymentMethod == filter.PaymentMethod);
         }if (filter.PaymentStatus != null)

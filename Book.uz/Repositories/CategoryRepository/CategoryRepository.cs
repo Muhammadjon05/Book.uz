@@ -13,20 +13,20 @@ public class CategoryRepository : ICategoryRepository
         _appDbContext = appDbContext;
     }
 
-    public  async Task<Category> AddCategory(Category category)
+    public  async Task<Category> AddCategoryAsync(Category category)
     {
         await _appDbContext.Categories.AddAsync(category);
         await _appDbContext.SaveChangesAsync();
         return category;
     }
 
-    public async Task<ICollection<Category>> GetAllCategories()
+    public async Task<ICollection<Category>> GetAllCategoriesAsync()
     {
         var categories = await _appDbContext.Categories.ToListAsync();
         return categories;
     }
 
-    public async Task<Category?> GetCategoryById(Guid id)
+    public async Task<Category?> GetCategoryByIdAsync(Guid id)
     {
         var category = await _appDbContext.Categories.Where(i => i.CategoryId == id).
             Include(i => i.Books).
@@ -35,7 +35,7 @@ public class CategoryRepository : ICategoryRepository
         return category;
     }
 
-    public async Task DeleteCategory(Category category)
+    public async Task DeleteCategoryAsync(Category category)
     {
         _appDbContext.Categories.Remove(category);
         await _appDbContext.SaveChangesAsync();

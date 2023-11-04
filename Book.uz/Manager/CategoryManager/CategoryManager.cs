@@ -18,32 +18,32 @@ public class CategoryManager
         _mapper = mapper;
     }
 
-    public async Task<CategoryModel> AddCategory(CategoryDto dto)
+    public async Task<CategoryModel> AddCategoryAsync(CategoryDto dto)
     {
         var categoryD = _mapper.Map<Category>(dto); 
-        var category = await _categoryRepository.AddCategory(categoryD);
+        var category = await _categoryRepository.AddCategoryAsync(categoryD);
         return _mapper.Map<CategoryModel>(category);
     }
-    public async Task<ICollection<CategoryModel>> GetAllCategories()
+    public async Task<ICollection<CategoryModel>> GetAllCategoriesAsync()
     {
-        var categories = await _categoryRepository.GetAllCategories();
+        var categories = await _categoryRepository.GetAllCategoriesAsync();
         var catModels = _mapper.Map<ICollection<CategoryModel>>(categories);
         return catModels;
     }
 
 
-    public async Task DeleteCategory(Guid id)
+    public async Task DeleteCategoryAsync(Guid id)
     {
-        var category = await _categoryRepository.GetCategoryById(id);
+        var category = await _categoryRepository.GetCategoryByIdAsync(id);
         if (category == null)
         {
             throw new CategoryNotFoundException(id);
         }
-        await _categoryRepository.DeleteCategory(category: category);
+        await _categoryRepository.DeleteCategoryAsync(category: category);
     }
-    public async Task<CategoryModel> GetByCategory(Guid id)
+    public async Task<CategoryModel> GetByCategoryAsync(Guid id)
     {
-        var category = await _categoryRepository.GetCategoryById(id);
+        var category = await _categoryRepository.GetCategoryByIdAsync(id);
         if (category == null)
         {
             throw new CategoryNotFoundException(id);

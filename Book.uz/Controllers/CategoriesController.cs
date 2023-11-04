@@ -19,18 +19,18 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpPost]
-    public  async Task<IActionResult> AddCategory(CategoryDto dto)
+    public  async Task<IActionResult> AddCategoryAsync(CategoryDto dto)
     {
-        var category = await _categoryManager.AddCategory(dto: dto);
+        var category = await _categoryManager.AddCategoryAsync(dto: dto);
         return Ok(category);
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetCategoryById(Guid id)
+    public async Task<IActionResult> GetCategoryByIdAsync(Guid id)
     {
         try
         {
-            var category = await _categoryManager.GetByCategory(id);
+            var category = await _categoryManager.GetByCategoryAsync(id);
             return Ok(category);
         }
         catch (CategoryNotFoundException e)
@@ -40,11 +40,11 @@ public class CategoriesController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteCategory(Guid id)
+    public async Task<IActionResult> DeleteCategoryAsync(Guid id)
     {
         try
         {
-            await _categoryManager.DeleteCategory(id);
+            await _categoryManager.DeleteCategoryAsync(id);
             return Ok("Deleted successfully");
         }
         catch (CategoryNotFoundException e)
@@ -53,9 +53,9 @@ public class CategoriesController : ControllerBase
         }
     }
     [HttpGet]
-    public  async Task<IActionResult> GetAllCategories()
+    public  async Task<IActionResult> GetAllCategoriesAsync()
     {
-        var categories = await _categoryManager.GetAllCategories();
+        var categories = await _categoryManager.GetAllCategoriesAsync();
         return Ok(categories);
     }
 }

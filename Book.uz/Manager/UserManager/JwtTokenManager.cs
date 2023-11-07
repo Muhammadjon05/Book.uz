@@ -5,7 +5,7 @@ using Book.uz.Option;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Book.uz.Manager;
+namespace Book.uz.Manager.UserManager;
 
 public class JwtTokenManager
 {

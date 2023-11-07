@@ -1,4 +1,4 @@
-﻿namespace Book.uz.Entities;
+﻿namespace Book.uz.Models;
 
 public class UserModel
 {

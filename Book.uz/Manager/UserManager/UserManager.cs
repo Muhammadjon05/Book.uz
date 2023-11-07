@@ -1,10 +1,11 @@
 ﻿using Book.uz.DtoModels;
 using Book.uz.Entities;
 using Book.uz.Exceptions;
-using Book.uz.Repositories;
+using Book.uz.Models;
+using Book.uz.Repositories.UserRepositories;
 using Microsoft.AspNetCore.Identity;
 
-namespace Book.uz.Manager;
+namespace Book.uz.Manager.UserManager;
 
 public class UserManager
 {

@@ -8,23 +8,26 @@ using Book.uz.Filter;
 using Book.uz.Models;
 using Book.uz.PaginationModels;
 using Book.uz.Repositories.Generic;
-using Microsoft.EntityFrameworkCore;
+using Nest;
 
 namespace Book.uz.Repositories.BookRepository;
 
 public class BookRepository : IBookRepository
 {
+    
+    private readonly IElasticClient _client;
     private readonly IMapper _mapper;
     private readonly IGenericRepository<Entities.Book> _bookRepository;
     private readonly HttpContextHelper _httpContext;
 
     public BookRepository(
         IGenericRepository<Entities.Book> genericRepository,
-        HttpContextHelper httpContext, IMapper mapper)
+        HttpContextHelper httpContext, IMapper mapper, IElasticClient client)
     {
         _bookRepository = genericRepository;
         _httpContext = httpContext;
         _mapper = mapper;
+        _client = client;
     }
 
 
@@ -37,10 +40,17 @@ public class BookRepository : IBookRepository
 
     public async ValueTask<IEnumerable<BookModel>> GetAllAsync(BookFilter filter)
     {
-        var books = _bookRepository.SelectAll();
-        if (filter.Name is not null)
+        /*var books = _bookRepository.SelectAll();*/
+        
+        var result =  _client.SearchAsync
+            <Entities.Book>(s
+            => s.Query(q => q
+                .QueryString(d =>
+                    d.Query('*'+filter.Name+'*'))).Size(1000)).Result.Documents.AsQueryable();
+        
+        /*if (filter.Name is not null)
         {
-            books = books.Where(t => t.BookName.ToLower()
+            result = books.Where(t => t.BookName.ToLower()
                 .Contains(filter.Name.ToLower()));
         }  if (filter.Price is not null)
         {
@@ -49,9 +59,10 @@ public class BookRepository : IBookRepository
         if (filter.PageSize is not null)
         {
             books = books.Where(t=>t.PageSize > filter.PageSize);
-        }
-        var booksPages = await books.
-            ToPagedListAsync(_httpContext, filter);
+        }*/
+        
+        var booksPages =  result.
+            ToPagedListAsync(_httpContext, filter).Result.ToList();
         return  booksPages.Select(v=>_mapper.Map<BookModel>(v));
     }
 

@@ -16,7 +16,6 @@ using Book.uz.Repositories.ReviewRepository;
 using Book.uz.Repositories.UserRepositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using Mapper = AutoMapper.Mapper;
 
 var builder = WebApplication.CreateBuilder(args);
 

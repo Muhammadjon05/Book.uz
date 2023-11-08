@@ -3,7 +3,7 @@ using Book.uz.Entities;
 using Book.uz.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
-namespace Book.uz.Repositories;
+namespace Book.uz.Repositories.UserRepositories;
 
 public class UserRepository : IUserRepository
 {

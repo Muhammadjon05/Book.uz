@@ -1,6 +1,7 @@
 ﻿
 using Book.uz.DbContext;
 using Book.uz.Manager;
+using Book.uz.Manager.UserManager;
 using Book.uz.Option;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;

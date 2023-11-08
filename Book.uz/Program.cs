@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using AutoMapper;
 using Book.uz.DbContext;
 using Book.uz.Extension;
+using Book.uz.Extensions;
 using Book.uz.Manager;
 using Book.uz.Manager.Review;
 using Book.uz.Mappers;
@@ -44,8 +45,7 @@ builder.Services.AddScoped<ReviewManager>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<HttpContextHelper>();
 builder.Services.AddScoped<AuthorManager>();
-
-
+builder.Services.AddElasticSearch(builder.Configuration);
 builder.Services.AddControllers()
     .AddJsonOptions(
         options =>

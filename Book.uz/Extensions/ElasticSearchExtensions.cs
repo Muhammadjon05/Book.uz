@@ -35,18 +35,18 @@ public static class ElasticSearchExtensions
     {
         client.Indices.Create(indexName.ToLower()
             , i => 
-                i.Map<BookModel>(x => x.AutoMap()));
+                i.Map<Entities.Book>(x => x.AutoMap()));
         client.Indices.Create(indexName.ToLower()
             , i => i.
-                Map<AuthorModel>(x => x.AutoMap()));  
+                Map<Author>(x => x.AutoMap()));  
         client.Indices.Create(indexName.ToLower()
             , i => i.
-                Map<ReviewModel>(x => x.AutoMap()));    
+                Map<Review>(x => x.AutoMap()));    
         client.Indices.Create(indexName.ToLower()
             , i => i.
-                Map<CategoryModel>(x => x.AutoMap()));    
+                Map<Category>(x => x.AutoMap()));    
         client.Indices.Create(indexName.ToLower()
             , i => i.
-                Map<OrderModel>(x => x.AutoMap()));    
+                Map<Order>(x => x.AutoMap()));    
     }
 }   

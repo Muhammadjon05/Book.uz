@@ -3,7 +3,6 @@ using AutoMapper;
 using BookShop.Data.DbContext;
 using BookShop.Service.Extensions;
 using BookShop.Service.Manager;
-using BookShop.Service.Manager.Review;
 using BookShop.Service.Mappers;
 using BookShop.Service.PaginationModels;
 using BookShop.Service.Repositories;
@@ -36,9 +35,6 @@ builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
-
-builder.Services.AddScoped<ReviewManager>();
-
 builder.Services.AddHttpContextAccessor();
     builder.Services.AddScoped<HttpContextHelper>();
 builder.Services.AddScoped<AuthorManager>();/*

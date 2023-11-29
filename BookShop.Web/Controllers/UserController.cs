@@ -1,7 +1,7 @@
-﻿using BookShop.Web.Manager;
-using BookShop.Web.DtoModels;
+﻿using BookShop.Domain.DtoModels;
+using BookShop.Service.Manager.UserManager;
+using BookShop.Service.UserProvider;
 using BookShop.Web.Exceptions;
-using BookShop.Web.Manager.UserManager;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,9 +12,9 @@ namespace BookShop.Web.Controllers;
 public class UserController : ControllerBase
 {
     private readonly UserManager _userManager;
-    private readonly UserProvider.UserProvider _userProvider; 
+    private readonly UserProvider _userProvider; 
 
-    public UserController(UserManager userManager, UserProvider.UserProvider userProvider)
+    public UserController(UserManager userManager, UserProvider userProvider)
     {
         _userManager = userManager;
         _userProvider = userProvider;

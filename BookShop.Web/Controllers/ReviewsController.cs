@@ -1,8 +1,6 @@
-﻿using BookShop.Web.Entities;
-using BookShop.Web.Repositories.ReviewRepository;
-using BookShop.Web.DtoModels;
+﻿using BookShop.Domain.DtoModels;
+using BookShop.Service.Manager.Review;
 using BookShop.Web.Exceptions;
-using BookShop.Web.Manager.Review;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

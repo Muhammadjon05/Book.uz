@@ -1,8 +1,7 @@
-﻿using BookShop.Web.Entities;
-using BookShop.Web.DtoModels;
+﻿using BookShop.Domain.DtoModels;
+using BookShop.Service.Filter;
+using BookShop.Service.Repositories.CategoryRepository;
 using BookShop.Web.Exceptions;
-using BookShop.Web.Filter;
-using BookShop.Web.Repositories.CategoryRepository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookShop.Web.Controllers;

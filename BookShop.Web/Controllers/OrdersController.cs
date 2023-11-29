@@ -1,7 +1,7 @@
-﻿using BookShop.Web.DtoModels;
+﻿using BookShop.Domain.DtoModels;
+using BookShop.Service.Filter;
+using BookShop.Service.Repositories.OrderRepository;
 using BookShop.Web.Exceptions;
-using BookShop.Web.Filter;
-using BookShop.Web.Repositories.OrderRepository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

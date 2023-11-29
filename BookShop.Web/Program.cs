@@ -1,19 +1,18 @@
 using System.Text.Json.Serialization;
 using AutoMapper;
-using BookShop.Web.DbContext;
-using BookShop.Web.Extension;
-using BookShop.Web.Extensions;
-using BookShop.Web.Manager;
-using BookShop.Web.Manager.Review;
-using BookShop.Web.Mappers;
-using BookShop.Web.PaginationModels;
-using BookShop.Web.Repositories;
-using BookShop.Web.Repositories.BookRepository;
-using BookShop.Web.Repositories.CategoryRepository;
-using BookShop.Web.Repositories.Generic;
-using BookShop.Web.Repositories.OrderRepository;
-using BookShop.Web.Repositories.ReviewRepository;
-using BookShop.Web.Repositories.UserRepositories;
+using BookShop.Data.DbContext;
+using BookShop.Service.Extensions;
+using BookShop.Service.Manager;
+using BookShop.Service.Manager.Review;
+using BookShop.Service.Mappers;
+using BookShop.Service.PaginationModels;
+using BookShop.Service.Repositories;
+using BookShop.Service.Repositories.BookRepository;
+using BookShop.Service.Repositories.CategoryRepository;
+using BookShop.Service.Repositories.Generic;
+using BookShop.Service.Repositories.OrderRepository;
+using BookShop.Service.Repositories.ReviewRepository;
+using BookShop.Service.Repositories.UserRepositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -42,8 +41,8 @@ builder.Services.AddScoped<ReviewManager>();
 
 builder.Services.AddHttpContextAccessor();
     builder.Services.AddScoped<HttpContextHelper>();
-builder.Services.AddScoped<AuthorManager>();
-builder.Services.AddElasticSearch(builder.Configuration);
+builder.Services.AddScoped<AuthorManager>();/*
+builder.Services.AddElasticSearch(builder.Configuration);*/
 builder.Services.AddControllers()
     .AddJsonOptions(
         options =>

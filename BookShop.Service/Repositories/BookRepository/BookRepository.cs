@@ -30,6 +30,7 @@ public class BookRepository : IBookRepository
     public async ValueTask<BookModel> InsertAsync(BookDto dto)
     {
         var createBook = _mapper.Map<Book>(dto);
+        createBook.Authors = _mapper.Map<ICollection<Author>>(dto.AuthoInfo);
         var newBook = await _bookRepository.InsertAsync(createBook);
         return _mapper.Map<BookModel>(newBook);
     }

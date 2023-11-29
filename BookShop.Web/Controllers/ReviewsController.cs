@@ -1,5 +1,6 @@
 ﻿using BookShop.Domain.DtoModels;
-using BookShop.Service.Manager.Review;
+using BookShop.Service.Filter;
+using BookShop.Service.Repositories.ReviewRepository;
 using BookShop.Web.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,33 +12,49 @@ namespace BookShop.Web.Controllers;
 [Route("api/[controller]")]
 public class ReviewsController : ControllerBase
 {
-    private readonly ReviewManager _reviewManager;
+    private readonly IReviewRepository _reviewRepository;
 
-    public ReviewsController(ReviewManager reviewManager)
+    public ReviewsController( IReviewRepository reviewRepository)
     {
-        _reviewManager = reviewManager;
+        _reviewRepository = reviewRepository;
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddReview(ReviewDto dto)
+    public async ValueTask<IActionResult> AddReview(ReviewDto dto)
     {
-        var review = await _reviewManager.AddReview(dto);
-        return Ok(review);
+        try
+        {   var review = await _reviewRepository.AddReview(dto);
+            return Ok(review);
+
+        }
+        catch (BookNotFoundException e)
+        {
+            return BadRequest(e.Message);
+        }
+     
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllTheReviews()
-    {
-        var reviews = await _reviewManager.GetAllTheReviews();
-        return Ok(reviews);
-    }
-
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetReviewById(Guid id)
+    public async ValueTask<IActionResult> GetAllTheReviews([FromQuery] ReviewFilter filter)
     {
         try
         {
-            var review = await _reviewManager.GetReviewById(id);
+            var reviews = await _reviewRepository.GetAllTheReviews(filter);
+            return Ok(reviews);
+        }
+        catch (Exception e)
+        {
+            return BadRequest("Something went wrong");
+        }
+       
+    }
+
+    [HttpGet("{id}")]
+    public async ValueTask<IActionResult> GetReviewById(Guid id)
+    {
+        try
+        {
+            var review = await _reviewRepository.GetReviewById(id);
             return Ok(review);
         }
         catch (ReviewNotFoundException e)
@@ -47,11 +64,11 @@ public class ReviewsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteReview(Guid id)
+    public async ValueTask<IActionResult> DeleteReview(Guid id)
     {
         try
         {
-            await _reviewManager.DeleteReview(id);
+             _reviewRepository.DeleteReview(id);
             return Ok("Deleted successfully");
         }
         catch (ReviewNotFoundException e)

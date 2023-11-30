@@ -2,7 +2,6 @@ using System.Text.Json.Serialization;
 using AutoMapper;
 using BookShop.Data.DbContext;
 using BookShop.Service.Extensions;
-using BookShop.Service.Manager;
 using BookShop.Service.Mappers;
 using BookShop.Service.PaginationModels;
 using BookShop.Service.Repositories;
@@ -36,8 +35,8 @@ builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
 builder.Services.AddHttpContextAccessor();
-    builder.Services.AddScoped<HttpContextHelper>();
-builder.Services.AddScoped<AuthorManager>();/*
+builder.Services.AddScoped<HttpContextHelper>();
+/*
 builder.Services.AddElasticSearch(builder.Configuration);*/
 builder.Services.AddControllers()
     .AddJsonOptions(

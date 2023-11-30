@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BookShop.Domain.DtoModels;
 using BookShop.Domain.Entities;
+using BookShop.Service.Exceptions;
 using BookShop.Service.Extensions;
 using BookShop.Service.Filter;
 using BookShop.Service.PaginationModels;
@@ -16,21 +17,28 @@ public class BookRepository : IBookRepository
     private readonly IMapper _mapper;
     private readonly IGenericRepository<Book> _bookRepository;
     private readonly HttpContextHelper _httpContext;
+    private readonly IGenericRepository<Author> _authorRepository;
 
     public BookRepository(
         IGenericRepository<Book> genericRepository,
-        HttpContextHelper httpContext, IMapper mapper)
+        HttpContextHelper httpContext, IMapper mapper, IGenericRepository<Author> authorRepository)
     {
         _bookRepository = genericRepository;
         _httpContext = httpContext;
         _mapper = mapper;
+        _authorRepository = authorRepository;
     }
 
 
     public async ValueTask<BookModel> InsertAsync(BookDto dto)
     {
         var createBook = _mapper.Map<Book>(dto);
-        createBook.Authors = _mapper.Map<ICollection<Author>>(dto.AuthoInfo);
+        var isAuthorExist = _authorRepository.
+            SelectFirstAsync(t => t.AuthorId == dto.AuthorId).Result;
+        if (isAuthorExist is null)
+        {
+            throw new AuthorNotFoundException(dto.AuthorId);
+        }
         var newBook = await _bookRepository.InsertAsync(createBook);
         return _mapper.Map<BookModel>(newBook);
     }

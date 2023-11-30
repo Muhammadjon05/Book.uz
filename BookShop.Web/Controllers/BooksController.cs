@@ -19,7 +19,7 @@ public class BooksController : ControllerBase
 
 
     [HttpPost]
-    public async Task<IActionResult> AddBook([FromBody]BookDto dto)
+    public async Task<IActionResult> AddBook([FromForm]BookDto dto)
     {
         var book = await _bookRepository.InsertAsync(dto);
         return  Ok(book);

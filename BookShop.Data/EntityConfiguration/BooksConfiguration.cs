@@ -10,8 +10,8 @@ public class BooksConfiguration : IEntityTypeConfiguration<Book>
     {
 
         builder.HasKey(c => c.BookId); 
-        builder.HasMany(c => c.Authors).WithMany(c => c.Books);
-
+        
+    
         /*
         builder.HasKey(i => i.Id);
 
